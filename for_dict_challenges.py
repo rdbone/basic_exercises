@@ -4,6 +4,7 @@
 # Вася: 1
 # Маша: 2
 # Петя: 2
+from collections import Counter
 
 students = [
     {'first_name': 'Вася'},
@@ -12,7 +13,10 @@ students = [
     {'first_name': 'Маша'},
     {'first_name': 'Петя'},
 ]
-# ???
+
+c = Counter(student['first_name'] for student in students)
+print(dict(c))
+
 
 
 # Задание 2
@@ -26,7 +30,9 @@ students = [
     {'first_name': 'Маша'},
     {'first_name': 'Оля'},
 ]
-# ???
+c = Counter(student['first_name'] for student in students)
+max_key = max(c, key=c.get)
+print(f'Самое частое имя среди учеников: {max_key}')
 
 
 # Задание 3
@@ -51,7 +57,13 @@ school_students = [
         {'first_name': 'Саша'},
     ],
 ]
-# ???
+i = 1
+for group in school_students:
+    c = Counter(student['first_name'] for student in group)
+    max_key = max(c, key=c.get)
+    print(f'Самое частое имя в классе {i}: {max_key}')
+    i += 1
+
 
 
 # Задание 4
@@ -72,7 +84,19 @@ is_male = {
     'Миша': True,
     'Даша': False,
 }
-# ???
+
+for group in school:
+    gender = {
+    'male': 0,
+    'female': 0
+    }
+    for student in group['students']:
+        if is_male[student['first_name']] == True:
+            gender['male'] += 1
+        else:
+            gender['female'] += 1
+    print(f'Класс {group["class"]}: девочки {gender["female"]}, мальчики {gender["male"]}')
+
 
 
 # Задание 5
@@ -91,5 +115,20 @@ is_male = {
     'Олег': True,
     'Миша': True,
 }
-# ???
+boys = {}
+girls = {}
+for group in school:
+    for student in group['students']:
+        boys[group['class']] = 0
+        girls[group['class']] = 0
+        if is_male[student['first_name']] == True:
+            boys[group['class']] += 1
+        else:
+            girls[group['class']] += 1
+
+max_key_male = max(boys, key=boys.get)
+max_key_female = max(girls, key=girls.get)
+print(f'Больше всего мальчиков в классе {max_key_male}')
+print(f'Больше всего девочек в классе {max_key_female}')
+    
 
