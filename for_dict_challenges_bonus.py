@@ -36,7 +36,6 @@ import datetime
 from collections import Counter
 import lorem
 
-
 def generate_chat_history():
     messages_amount = random.randint(200, 1000)
     users_ids = list(
@@ -64,7 +63,6 @@ def generate_chat_history():
             "text": lorem.sentence(),
         })
     return messages
-
 
 #Вывести айди пользователя, который написал больше всех сообщений
 def most_texting_user(messages):
@@ -117,18 +115,7 @@ def max_messages_times_of_day(messages):
             times_of_day['evening'] += 1
     max_time_of_day = max(times_of_day, key=times_of_day.get)
     return max_time_of_day
-"""
-messages = [
-    {
-        "id": "efadb781-9b04-4aad-9afe-e79faef8cffb",
-        "sent_at": datetime.datetime(2022, 10, 11, 23, 11, 11, 721),
-        "sent_by": 46,  # id пользователя-отправителя
-        "reply_for": "7b22ae19-6c58-443e-b138-e22784878581",  # id сообщение, на которое это сообщение является ответом (может быть None)
-        "seen_by": [26, 91, 71], # идентификаторы пользователей, которые видели это сообщение
-        "text": "А когда ревью будет?",
-    }
-]
-"""
+
 #Вывести идентификаторы сообщений, который стали началом для самых длинных тредов (цепочек ответов)    
 def max_thread(messages):
     threads = {}
@@ -136,28 +123,18 @@ def max_thread(messages):
         if message['reply_for'] == None:
             if threads.get(message['id'], 0) == 0:
                 threads[message['id']] = []
-            #threads[message['id']] += [message['id']]
-    #print(threads)
     for thread in threads:
         for message in messages:
             current_id = ''
             if message['reply_for'] == thread:
                 current_id = message['id']
                 threads[thread] += [current_id]
-    #print(threads)
 #сделал пока только словарь: ключи - первые сообщения, а значения - список реплаев на самое первое сообщение.
 # видится, что если продолжать в том же духе, то пойдет по экспоненте. надо подумать, как решить.              
 
-
-         
-
 if __name__ == "__main__":
-    #print(generate_chat_history())
     text = generate_chat_history()
     print(f'ID пользователя, написавшего большего всего сообщений: {most_texting_user(text)}')
     print(f'ID пользователя, на сообщения которого больше всего отвечали: {most_replied_user(text)}')
     print(f'ID пользователя, сообщения которых видело больше всего уникальных пользователей: {most_viewed_messages_user(text)}')
     print(f'В чате больше всего сообщений: {max_messages_times_of_day(text)}')
-    #max_thread(text)
-    
-    
